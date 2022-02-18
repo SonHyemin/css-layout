@@ -286,5 +286,321 @@ scss 하기 위해서는 node.js 설치하기
 - `space-around`: 여러 줄들 주위에 동일한 간격을 둡니다.
 - `stretch`: 여러 줄들을 컨테이너에 맞도록 늘립니다.
 
+## GRID
+
+grid 규칙은 flexbox와 비슷하다
+
+grid design는 부모에게 해야됨  ( display:grid )
+
+### 1. grid-template-columns
+
+```css
+.father {
+  display: grid;
+  grid-template-columns: 250px 500px 250px;
+}
+```
+
+  grid-template-columns: 250px 500px 250px; column너비 (좌우) 값을 나타냄(3개)
+
+### 2.grid-template-row
+
+```css
+.father {
+  display: grid;
+  grid-template-rows: 250px 100px 300px 50px;
+}
+```
+
+ grid-template-rows  : row너비(상하)값을 나타냄(4개)
+
+### 3.row-gap / column-gap / gap
+
+```css
+.father {
+  display: grid;
+  grid-template-columns: 250px 250px 100px;
+  grid-template-rows: 100px 50px 300px;
+  row-gap: 10px;
+  column-gap: 10px;
+}
+```
+
+row-gap: 10px;    (상하간격)    / column-gap: 10px;  (좌우간격)  / gap (상하좌우간격)
+
+### 4.repeat(   ,      px)
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+```
+
+ grid-template-columns: repeat(4, 200px); 
+
+ = 
+
+ grid-template-columns: 200px 200px 200px 200px;
+
+- css grid가 가진 함수 이다 .
+- 200px 값으로 4번 반복한다는 뜻
+
+### 5. grid-template-areas
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  grid-template-rows: 100px repeat(2, 200px) 100px;
+  grid-template-areas:
+    "header header header header"
+    "content content content nav"
+    "content content content nav"
+    "footer footer footer footer";
+}
+
+.header {
+  background-color: greenyellow;
+  grid-area: header;
+}
+.content {
+  background-color: blue;
+  grid-area: content;
+}
+.nav {
+  background-color: darkgoldenrod;
+  grid-area: nav;
+}
+.footer {
+  background-color: salmon;
+  grid-area: footer;
+}
+```
+
+- grid-area에 있는 이름과 grid-template-areas가 같아야됨
+- class와 별개로  grid-area로 이름 지정해줘야됨
+
+### 6. grid-column-start/grid-column-end
+
+```css
+.content {
+  background-color: blue;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+```
+
+- start와 end 는 column이 아니고 line을 얘기하는거다
+- 1번재 줄에서 시작하고 5번째 줄에서 끝난다는 이야기이다 column순서와 무관함
+- 이걸사용하면 areas 안하게됨
+
+### 7.shortcuts (시작/끝)
+
+- start와 end 를 같이 적을수 있다
+
+```css
+.nav {
+  background-color: darkgoldenrod;
+  grid-row: 2/4;
+}
+```
+
+- 몇개의 line이 있는지 신경쓰지 않고 적용할수있다 
+  - 1(처음시작)  / -1(끝이라는 의미)  / -2(마지막 전)  /....
+
+```css
+.nav {
+  background-color: darkgoldenrod;
+  grid-row: 2/-2;
+}
+.footer {
+  background-color: salmon;
+  grid-column: 1/-1;
+}
+```
+
+- span 을 사용할수있다
+
+  - span은 수직,수평 모두 작용하고 시작과 끝점을 적는 걸 대신할수있다
+
+  - 얼마큼 cell을 가지고 있는지 입력하기만 하면됨 (ex: span 4 )
+
+```css
+.nav {
+  background-color: darkgoldenrod;
+  grid-row: span 2;
+}
+.footer {
+  background-color: salmon;
+  grid-column: span 4;
+}
+```
+
+### 8.Line Naming
+
+- line에 이름을 붙여서 사용
+
+```css
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: [first-line]100px [second-line]100px[third-line]100px[fourth-line]100px[fifth-line]100px;
+  
+    grid-template-rows: repeat(4, 100px);
+}
+.content {
+  background-color: blue;
+  grid-column: first-line/fourth-line;
+  grid-row: span 2;
+}
+```
+
+### 9. fr (fraction)
+
+- grid에서 사용가능한 공간을 말해주는 측정단위임
+  - gride에서 width가 500px이면 그안에서 부분이 나눠짐
+  - grid container 안에서 얻은 공간이다
+  - 유연한 layout 을 할수있다(화면 크기에 상관없이 비율이 유지됨)
+  - (4fr 1fr 1fr 1fr) : 4fr는 4배더큰 공간을 말함  
+  - (4, 1fr) 4번 똑같이 나눈다는 뜻
+  - 가로는 화면의 크기이지만 수직은 공간이 없다 0이다 그래서 높이 설정을해야됨 (ex: 50vh 화면의 절반크기)
+
+### 10. Grid Template
+
+- grid-template에서 grid-area이름을 사용할것이다
+
+- grid-template작성하는법 (여기서는 repeat 함수 적용 안된다 )
+
+  "row의 이름 작성"  row의 높이작성 (fr)
+
+  그리고 마지막에 "/" 를 적고 column마다 폭이(width) 얼마나 되는지 적어야됨
+
+  (/ fr fr fr fr)
+
+```css
+.grid {
+  display: grid;
+  gap: 10px;
+  height: 50vh;
+  grid-template:
+    "header header header header" 1fr
+    "content content content nav" 2fr
+    "footer footer footer footer" 1fr / 1fr 1fr 1fr 1fr;
+}
+
+.header {
+  background-color: greenyellow;
+  grid-area: header;
+}
+
+.content {
+  background-color: blue;
+  grid-area: content;
+}
+.nav {
+  background-color: darkgoldenrod;
+  grid-area: nav;
+}
+.footer {
+  background-color: salmon;
+  grid-area: footer;
+}
+
+```
+
+### 11. place items
+
+stretch는 grid-container가 grid를 갖고 있고 늘여서 grid자체를 채우도록 한다
+
+justify-items의 기본값은 stretch이다 (수평)
+
+align-items의 기본값은 stretch이다 (수직)
+
+기본크기를 (높이와 너비)를 정해주면 stretch는 적용이 안된다
+
+div의 높이와너비 =  text글자 (text가 있기때문에 div의 크기가 보이는것)
+
+```css
+.grid {
+  display: grid;
+  gap: 10px;
+  height: 50vh;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  align-items: stretch;
+  justify-items: center;
+}
+```
+
+- align-items: stretch +  justify-items: center = place-items: stretch center
+  - place-items : 수직 수평으로 작성한다
+
+```css
+.grid {
+  display: grid;
+  gap: 10px;
+  height: 50vh;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  place-items: stretch center;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
