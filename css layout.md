@@ -512,15 +512,17 @@ row-gap: 10px;    (상하간격)    / column-gap: 10px;  (좌우간격)  / gap (
 
 ### 11. place items
 
-stretch는 grid-container가 grid를 갖고 있고 늘여서 grid자체를 채우도록 한다
+- items 는 각 사각형 하나하나에 어떤걸 적용하는지 의미한다 
 
-justify-items의 기본값은 stretch이다 (수평)
+- stretch는 grid-container가 grid를 갖고 있고 늘여서 grid자체를 채우도록 한다
 
-align-items의 기본값은 stretch이다 (수직)
+- justify-items의 기본값은 stretch이다 (수평)
 
-기본크기를 (높이와 너비)를 정해주면 stretch는 적용이 안된다
+- align-items의 기본값은 stretch이다 (수직)
 
-div의 높이와너비 =  text글자 (text가 있기때문에 div의 크기가 보이는것)
+- 기본크기를 (높이와 너비)를 정해주면 stretch는 적용이 안된다
+
+- div의 높이와너비 =  text글자 (text가 있기때문에 div의 크기가 보이는것)
 
 ```css
 .grid {
@@ -548,29 +550,151 @@ div의 높이와너비 =  text글자 (text가 있기때문에 div의 크기가 �
 }
 ```
 
+### 12. place content
 
+- content 전체 grid이다, 모든 사각형을 다같이 함께 움직임
 
+- justify-content는 grid전체를 를 움직이는 것 (수평)-column열로 움직임
 
+-  align-content 는  grid전체를 를 움직이는 것 (수직)-row행으로 움직임
 
+- stretch 는 값이 정해져있으면 적용이 안된다 100px: X / 1fr: O 이렇게 하면 적용됨 
+- align-content: **stretch**;    →  grid-template-rows: repeat(4, **1fr**);
 
+```css
+.grid {
+  background: gray;
+  color: white;
+  display: grid;
+  gap: 5px;
+  height: 250vh;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 1fr);
+  justify-content: center;
+  align-content: stretch;
+}
+```
 
+- ` place-content: stretch center = `
 
+​      `수직+수평=`
 
+​      `align-content: stretch+ justify-content: center` 
 
+```css
+.grid {
+  background: gray;
+  color: white;
+  display: grid;
+  gap: 5px;
+  height: 250vh;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 1fr);
+  place-content: stretch center;
+}
+```
 
+### 13. Place-self
 
+- place-self: 수직 수평 
+- 자식에게만 적용된 property이고 오직 한개만 적용된다
 
+```css
+.header {
+  background-color: greenyellow;
+  align-self: end;
+  justify-self: center;
+}
+```
 
+- ` place-self: end center = `
 
+​       `수직+수평=`
 
+​      ` align-self:end + justify-self:center`
 
+```css
+.header {
+  background-color: greenyellow;
+  place-self: end center;
+}
+```
 
+### 14. Auto column / Auto row
 
+```css
+.grid {
+  color: white;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(4, 100px);
+    
+  grid-template-rows: repeat(4, 100px);
+  grid-auto-rows: 350px;
+}
+```
 
+- **grid-auto-rows** : 만약 여기에 더많은 content가 있으면 자동으로 줘서 row를 생성함
 
+-  **grid-auto-columns** : 더많은 content가 있으면 자동으로 줘서  column을 생성
 
+-  grid-template-rows: repeat(4, 100px);
+   		 grid-auto-rows: 350px;
 
+  =    4 row 까지는 100px 이고  5 row부터는 350px이라는 뜻 
 
+```css
+.grid {
+  color: white;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 100px);
+  grid-auto-flow: column;
+  grid-auto-columns: 100px;
+}
+```
+
+- **grid-auto-flow**:column : 더많은 content가 나오면 column으로 생성함
+
+### 15. minmax
+
+-  얼마나 작게 혹은 크게 element가 될수있는지 지정할수있도록 해줌
+- 내용이 줄어들더라도 너무 많이 안 줄어 들었으면 좋을때 사용하기 좋음
+
+```css
+grid-template-columns: repeat(8, minmax(100px, 1fr));
+```
+
+```css
+grid-template-columns: repeat(8, minmax(100px, 200px));
+```
+
+minmax (최소크기, 최대크기)
+
+### 16. auto-fit / auto-fill
+
+```css
+.grid:first-child {
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}
+.grid:last-child {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+```
+
+- auto-fill : 더많은 공간을 가진다. 정확한 사이즈를 위해서 사용 
+- auto-fit : 빈공간을 만들지 않음, 유동적인 사이즈를 위해서 사용
+
+### 17. min-content  /  max-content
+
+- 의미하는 것은 크기이다
+- min-content: 만약 box를 만든다고 하면 content가 작아질수 있는 만큼 작아짐
+- max-content: 만약 box를 만든다고 하면 content가 필요한 만큼 크게 만듦
+
+```css
+ grid-template-columns: max-content min-content;
+```
 
 
 

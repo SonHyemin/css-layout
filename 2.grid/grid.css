@@ -1,22 +1,14 @@
 .grid {
+  color: white;
   display: grid;
-  gap: 10px;
-  height: 50vh;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  place-items: stretch center;
+  gap: 5px;
+  grid-template-columns: max-content min-content;
+  grid-auto-rows: 100px;
+  margin-bottom: 30px;
 }
-
-.header {
+.item:nth-child(odd) {
   background-color: greenyellow;
 }
-
-.content {
-  background-color: blue;
-}
-.nav {
-  background-color: darkgoldenrod;
-}
-.footer {
-  background-color: salmon;
+.item:nth-child(even) {
+  background-color: darkblue;
 }
