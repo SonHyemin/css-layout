@@ -698,6 +698,130 @@ minmax (최소크기, 최대크기)
 
 
 
+## `grid-column-start` ##
+
+- 그리드 요소의 시작 열(column)위치를 지정함 (line)
+- ex)     grid-column-start: 3;
+
+## `grid-column-end`
+
+- 그리드 요소의 마지막 열(column)위치를 지정함  (line)
+- ex)     grid-column-end: 4;
+
+## `grid-column-start / grid-column-end`
+
+- `grid-column-start` 와 `grid-column-end`를 같이 사용할때, 
+
+  시작 값보다 마지막 값이 더 커야한다고 생각하실 수 있습니다. 하지만 꼭 그렇지만 않다
+
+  ```css
+  grid-column-start: 5;
+  grid-column-end: -5
+  ```
+
+- 그리드 왼쪽의 기준이 아닌 오른쪽으로 기준을 하고싶다면, 
+
+  `grid-column-start` 와 `grid-column-end`를 음수로 설정하면됨
+
+  예를들어, -1로 오른쪽 첫뻔째 세로선을 지정하실 수 있다
+
+  ```css
+  grid-column-start: 1;
+  grid-column-end: -2
+  ```
+
+-  `span`을 이용하여 열(column)의 넓이를 지정할 수 있습니다. `span`은 양수만 설정 가능합니다.
+
+  ```css
+  grid-column-start: span 3
+  grid-column-end: 6;
+  ```
+
+## `grid-column / grid-row`
+
+- 매번 `grid-column-start`와 `grid-column-end`를 입력하는 것은 불편하다 그래서
+
+  `grid-column`는 한번에 입력가능하다, /(슬래쉬)로 구분된다
+
+  ```css
+   grid-column: 4/6
+  ```
+
+  ```css
+  grid-column:2/span 3
+  ```
+
+  ```css
+  grid-column: 2;
+  grid-row: 5;
+  ```
+
+## `grid-area`
+
+- /(슬래쉬)로 구분지어 
+
+  `grid-row-start`, `grid-column-start`, `grid-row-end`, `grid-column-end`순으로 입력함
+
+  ```css
+  grid-area: 1/2/4/6;
+  ```
+
+## `order`
+
+-  그리드의 모든 요소들은 `order`의 값이 0이지만, `z-index`와 같이 양수와 음수의 값 모두 설정이 가능
+
+  ```css
+  order:1;
+  ```
+
+## `grid-template-columns/grid-template-rows `
+
+```css
+grid-template-columns: 50% 20% 20% 20% 20%;
+grid-template-rows: 20% 20% 20% 20% 20%;
+```
+
+## `repeat`
+
+- 동일한 너비의 열이나 행을 지정할려면 불편하다 그래서 repeat 함수가 이 문제를 해결해줌
+
+  ```css
+  grid-template-columns: repeat(5,20%);
+  ```
+
+## `fr`
+
+- `fr` 단위들은 사용가능한 공간을 하나로 공유하여 할당함
+
+- 예시로 두개의 element들을 `1fr`과 `3fr`로 설정시, 공간이 4개의 동일한 크기로 공유됨
+
+  첫번째 element는 사용가능한 공간의 1/4 크기로 그리고 두번째 element는 3/4 크기를 차지함
+
+  ```css
+  grid-template-columns: 1fr 5fr
+  ```
+
+  ```css
+  grid-template-columns: 50px repeat(3, 1fr) 50px ;
+  ```
+
+## `grid-template`  : 행/열 
+
+-  `grid-template-rows`와 `grid-template-columns`를 조합한 단축 속성
+
+- 예를 들어, `grid-template: 50% 50% / 200px;`은 ( grid-template: 행 행/열)
+
+  각각 50% 인 두개의 행(row)과 200px 너비의 한개의 열(column)의 그리드를 생성합니다.
+
+```css
+grid-template: 60%/ 200px
+```
+
+- auto는 가능한 많은 행을 많들고 50px는 맨마지막 행에 값을 적용한다 /1fr 4fr는 열이다 
+
+```css
+grid-template: auto 50px/ 1fr 4fr
+```
 
 
 
@@ -725,6 +849,4 @@ minmax (최소크기, 최대크기)
 
 
 
-
-
-
+  
