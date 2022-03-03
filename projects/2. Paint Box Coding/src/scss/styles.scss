@@ -1,0 +1,210 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400;500display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import "reset.scss";
+@import "_variables.scss";
+@import "_titles.scss";
+
+* {
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  @extend %minititle;
+}
+body {
+  height: 100vh;
+  font-family: "Caladea";
+  padding-top: 70px;
+  & > *:not(.footer) {
+    padding: 0px 140px;
+  }
+}
+header {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0px 140px;
+  background-color: white;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+
+  nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    ul {
+      display: flex;
+      font-size: 10px;
+      @extend %minititle;
+      &:first-child {
+        li {
+          margin-right: 60px;
+        }
+      }
+    }
+  }
+}
+.hero {
+  height: 100vh;
+
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("https://images.unsplash.com/photo-1557750255-c76072a7aad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  line-height: 42px;
+  margin: 0px $sidespace;
+  margin-bottom: 80px;
+  h4 {
+    @extend %minititle;
+    margin-bottom: 30px;
+  }
+  h3 {
+    font-size: 40px;
+    width: 35%;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  a {
+    width: 10%;
+    background-color: white;
+    padding: 10px 0px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    @extend %minititle;
+    font-size: 10px;
+    transition: color 0.3s linear, background 0.3s linear;
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+}
+
+.under-hero {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  margin-bottom: 80px;
+  .under-hero__content {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $bg;
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h4 {
+        @extend %minititle;
+        margin-bottom: 30px;
+      }
+      h3 {
+        font-size: 36px;
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      a {
+        border: 1px solid black;
+        padding: 20px;
+      }
+    }
+  }
+  img,
+  div {
+    width: 50%;
+  }
+}
+.blog {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 60vh);
+  margin-bottom: 80px;
+  .blog__post {
+    background-color: $bg;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    &:nth-child(even) {
+      img {
+        order: 1;
+      }
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    .post__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .post__date {
+        @extend %minititle;
+        margin-bottom: 70px;
+      }
+      h4 {
+        font-size: 32px;
+        margin-bottom: 40px;
+      }
+    }
+  }
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  .gallery__poster {
+    height: 100%;
+    cursor: pointer;
+    img {
+      max-width: 100%;
+      height: 100%;
+      transition: opacity 0.3s linear;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.footer {
+  margin-top: 100px;
+  background-color: $bg;
+  padding: 65px 0px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  .footer__column {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    @extend %minititle;
+    .column__title {
+      margin-bottom: 50px;
+      opacity: 0.5;
+    }
+    ul {
+      text-align: center;
+      li {
+        margin-bottom: 15px;
+      }
+    }
+    &:nth-child(2) {
+      border-right: 1px solid black;
+      border-left: 1px solid black;
+    }
+  }
+}
