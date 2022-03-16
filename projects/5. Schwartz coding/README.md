@@ -13,3 +13,10 @@ background-image: url("")
 랜덤이미지 url
 
 https://source.unsplash.com/random
+
+extend와 px로 글자 사이즈 조절하기
+
+```scss
+ font-size: $fontMedium - 5px;
+```
+
