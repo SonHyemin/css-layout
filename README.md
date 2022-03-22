@@ -823,6 +823,241 @@ grid-template: 60%/ 200px
 grid-template: auto 50px/ 1fr 4fr
 ```
 
+## SCSS
+
+1. crtl+~
+2. npm run dev 엔터해서 실행
+
+### 1. variable  (_variables.scss)
+
+- 기본적으로 websit에서 가장중요한 color나 중요한 style을 저장하고 싶을 때 쓴다
+- _variables.scss 이름을 가진 파일을 만든다 (밑줄 _ 이 있는 파일들은 css로 변하지 않았으면  하는 것들이다)
+  - 그래서 _ 밑줄의 의미는 scss만을 위한 파일이란 의미이다
+
+- $ 이름 :값;  
+
+  - ```scss
+    $fontMedium: 22px;
+    ```
+
+- styles.scss 에서 import 하기  `*@import* "_variables.scss";` 
+
+- styles.scss  에서 값을 넣어주기
+
+  - ```scss
+    p {
+      font-size: $fontMedium;
+    }
+    ```
+
+### 2. Nesting
+
+```scss
+.box {
+  margin-top: 20px;
+  &:hover {
+    background-color: green;
+  }
+  h2 {
+    color: blue;
+  }
+  button {
+    color: red;
+  }
+}
+```
+
+-  box안에 &은 자기자신을 뜻함 , box안의 h2의 의미는 html에서 box안에 h2 라는뜻
+
+### 3. Mixins
+
+- 상황에 따라 다르게 코딩을 하고 싶으면 사용하는 것
+
+- _mixins.scss 파일따로 만들기
+
+- _mixins.scss 파일에서 `@mixin 이름 {   } ;`
+
+  - ```scss
+    @mixin sexyTitle {
+      color: blue;
+      font-size: 30px;
+      margin-bottom: 12px
+    }
+    ```
+
+- `@import "_mixins.scss";` 으로 styles.scss에서 import 하기 
+
+- styles.scss  에서 값을 넣어주기
+
+  - ```scss
+    h1{
+     @include sexyTitle
+    }
+    ```
+
+**@mixin의 링크에 값을 넣는 방법**
+
+- sexyTitle에게 $color라는 variable을 링크에 넣는 방법 
+
+```scss
+@mixin sexyTitle($color) {
+  color: $color;
+  font-size: 30px;
+  margin-bottom: 12px
+}
+```
+
+- styles.scss 에 값넣기           (       ($color)= (blue) 그래서 글자 색은 블루가 된다      )
+
+```scss
+h1{
+ @include sexyTitle(blue);
+}
+```
+
+**@mixin의 링크에 값을 넣고 if else 다루는 방법**
+
+```scss
+@mixin link($word) {
+  font-size: 30px;
+  margin-bottom: 12px
+  @if $word == "odd"{
+   color: blue;
+  }@else{
+   color: red;
+  }
+}
+```
+
+- 만약 $word의 값이 odd이면 글자색은 blue이고  $word의 값이 odd가아니면 글자색은 red이다
+
+```scss
+a{
+ @include link("even");
+}
+```
+
+- even 이기때문에 글자색은 red가 된다 
+
+### 4. Extends
+
+- 같은 코드를 중복하고 싶지않을때 사용
+
+- scss 파일을 하나 만든다 
+
+- _buttons.scss파일에서 `% 이름 {    };` 만들기 
+
+  - ```scss
+    %button{
+     border-radius: 7px;
+     font-size: 12px;
+     padding: 5px 10px
+    }
+    ```
+
+- `@import "_buttons.scss";` 으로 styles.scss에서 import 하기
+
+- styles.scss 에서 원하는 곳에 값넣기
+
+  - ```scss
+    a{
+     @extend %button;
+    }
+    button{
+      @extend %button;
+    }
+    ```
+
+### 5. Mixins and Conclusions 
+
+- _mixins.scss파일 하나 만들고 styles.scss 에게 @import 해준다 
+
+- _mixins.scss파일에서 `@mixin 이름 {  };`
+
+  - ```scss
+    @mixin responsive{
+      @content;
+    }
+    ```
+
+- styles.scss에서 값을 넣어주기
+
+  - ```scss
+    a{
+     @include responsive{
+      text-decoration: none;
+     }
+    }
+    ```
+
+     text-decoration: none; = @content;
+
+**반응형을 포함한 mixins**
+
+```scss
+$minIphone: 500px;
+$maxIphone: 690px;
+$minTable: $minIphone + 1;
+$maxTable: 1120px;
+
+@mixin responsive($devic) {
+  @if $devic == "iphone" {
+    @media screen and (min-width: $minIphone) (max-width: $maxIphone) {
+      @content;
+    }
+  } @else if $devic == "tablet" {
+    @media screen and (min-width: $minTable) and(max-width:$maxTable ) {
+      @content;
+    }
+  } @else if $devic == "iphone-l" {
+    @media screen (min-width: $minIphone) (max-width: $maxIphone) and(orientation:landscape) {
+      @content;
+    }
+  } @else if $devic == "ipad-l" {
+    @media screen (min-width: $minTable) and(max-width:$maxTable ) and(orientation:;:landscape) {
+      @content;
+    }
+  }
+}
+```
+
+- _mixins.scss파일에 반응형으로 만들기 
+
+```scss
+h1{
+ color:red;
+ @include responsive("iphone"){
+  color:yellowl;
+ }
+    @include responsive("iphone-l"){
+        font-size: 60px;
+    } 
+}
+```
+
+- styles.scss에 mixins 값사용하기 
+- h1컬러가 빨간색이지만 mixins.scss에서 작성한 iphone크기 값이 되면 yellow색으로 바뀐다
+
+- h1 크기가 iphone-l 값이되면 글자크기가 60px으로 바뀐다
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
